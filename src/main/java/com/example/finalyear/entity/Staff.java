@@ -34,7 +34,7 @@ public class Staff {
     private Gender gender; 
 
     @Column(name = "date_of_birth", nullable = false) 
-    private java.sql.Date dateOfBirth; 
+    private String dateOfBirth; 
 
     @Column(name = "email", nullable = false) 
     private String email; 
