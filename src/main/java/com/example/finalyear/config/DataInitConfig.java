@@ -32,17 +32,17 @@ public class DataInitConfig {
             // Create Staff
             Staff staff = new Staff();
             staff.setStaffId("STF001");
-            staff.setFullname("John Doe");
+            staff.setFullname("Mithlesh Singh");
             staff.setGender(Staff.Gender.MALE);
-            staff.setDateOfBirth("1985-04-15");
-            staff.setEmail("john.doe@example.com");
-            staff.setPhoneNumber("9876543210");
-            staff.setLocation("Kathmandu");
-            staff.setBloodGroup(Staff.BloodGroup.A_PLUS);
+            staff.setDateOfBirth("2001-05-07");
+            staff.setEmail("singhmithlesh095@gmail.com");
+            staff.setPhoneNumber("9817622227");
+            staff.setLocation("Sarlahi");
+            staff.setBloodGroup(Staff.BloodGroup.B_PLUS);
             staff.setDepartment("Science");
             staff.setClassTeacher("10th Grade");
-            staff.setBlockHead("Block A");
-            staff.setImage("john_doe_image.png");
+            staff.setBlockHead("Block J");
+            staff.setImage("mithlesh_singh_image.png");
             staff = staffRepository.save(staff);
 
             // Create Student
@@ -66,8 +66,8 @@ public class DataInitConfig {
             // Create Login for Staff
             Login staffLogin = new Login();
             staffLogin.setUserId("STF001");
-            staffLogin.setUsername("john_doe");
-            staffLogin.setPassword(passwordEncoder.encode("password123"));
+            staffLogin.setUsername("mithlesh_singh");
+            staffLogin.setPassword(passwordEncoder.encode("root"));
             staffLogin.setRole("STAFF");
             staffLogin.setStaff(staff);
             loginRepository.save(staffLogin);
