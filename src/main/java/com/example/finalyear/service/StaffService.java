@@ -45,7 +45,7 @@ public class StaffService {
         login.setUserId(String.valueOf(s.getId()));
         login.setUsername(staff.getUsername());
         login.setPassword(passwordEncoder.encode(staff.getPassword()));
-        login.setRole("Teacher");
+        login.setRole("TEACHER");
         login.setStaff(s);
 
         loginRepo.save(login);
