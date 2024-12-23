@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.finalyear.dto.StaffDTO;
 import com.example.finalyear.entity.Staff;
 import com.example.finalyear.entity.StudentsDetail;
 import com.example.finalyear.service.StaffService;
@@ -29,14 +30,14 @@ public class UserController {
 
     // Add a new staff
     @PostMapping("/staff/add")
-    public ResponseEntity<Staff> addStaff(@RequestBody Staff staff) {
+    public ResponseEntity<Staff> addStaff(@RequestBody StaffDTO staff) {
         Staff addedStaff = staffService.addStaff(staff);
         return ResponseEntity.ok(addedStaff);
     }
 
     // Update an existing staff
     @PutMapping("/staff/update")
-    public ResponseEntity<Staff> updateStaff(@RequestBody Staff staff) {
+    public ResponseEntity<Staff> updateStaff(@RequestBody StaffDTO staff) {
         Staff updatedStaff = staffService.updateStaff(staff);
         return ResponseEntity.ok(updatedStaff);
     }
