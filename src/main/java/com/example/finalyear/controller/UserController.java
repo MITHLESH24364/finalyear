@@ -1,21 +1,29 @@
 package com.example.finalyear.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.finalyear.dto.StaffDTO;
 import com.example.finalyear.entity.Staff;
 import com.example.finalyear.entity.StudentsDetail;
+import com.example.finalyear.repo.StudentRepo;
 import com.example.finalyear.service.StaffService;
 import com.example.finalyear.service.StudentService;
 
@@ -78,12 +86,43 @@ public class UserController {
         return ResponseEntity.ok(addedStudent);
     }
 
-    // Update an existing student
-    @PutMapping("/student/update")
-    public ResponseEntity<StudentsDetail> updateStudent(@RequestBody StudentsDetail student) {
-        StudentsDetail updatedStudent = studentService.updateStudentsDetail(student);
+    // // Update an existing student
+    // @PutMapping("/student/update/{id}")
+    // public ResponseEntity<StudentsDetail> updateStudent(@RequestBody StudentsDetail student, @PathVariable("id") long id) {
+    //     StudentsDetail updatedStudent = studentService.updateStudentsDetail(student);
+    //     // return ResponseEntity.ok(updatedStudent);
+    //     if (updatedStudent != null) {
+    //         return ResponseEntity.ok(updatedStudent);
+    //     } else {
+    //         return ResponseEntity.status(404).body(null);
+    //     }
+    // }
+
+@PutMapping("/student/update/{id}")
+public ResponseEntity<?> updateStudent(
+        @PathVariable Long id,
+        @RequestParam("studentPhoto") MultipartFile studentPhoto,
+        @ModelAttribute StudentsDetail studentsDetail) {
+    try {
+        // Handle image processing
+        if (!studentPhoto.isEmpty()) {
+            String fileName = studentPhoto.getOriginalFilename();
+            String filePath = "uploads/" + fileName; // Adjust path as needed
+            Files.copy(studentPhoto.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+            studentsDetail.setImage(filePath);
+        }
+
+        // Update logic
+        studentsDetail.setAccountId(id);
+        StudentsDetail updatedStudent = studentService.updateStudentsDetail(studentsDetail);
         return ResponseEntity.ok(updatedStudent);
+
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating student.");
     }
+}
+
+
 
     // Delete a student by ID
     @DeleteMapping("/student/delete/{id}")
