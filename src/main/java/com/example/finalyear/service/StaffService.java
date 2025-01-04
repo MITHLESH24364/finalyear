@@ -54,35 +54,69 @@ public class StaffService {
         
     }
 
-    public Staff updateStaff(StaffDTO staff){
-        Staff staffData = staffRepo.getById(staff.getId());
-        staffData.setImage(staff.getTeacherPhoto());
-        staffData.setStaffId(staff.getStaffId());
-        staffData.setFullname(staff.getFullname());
-        staffData.setGender(Staff.Gender.valueOf(staff.getGender()));
-        staffData.setDateOfBirth(staff.getDateOfBirth());
-        staffData.setEmail(staff.getEmail());
-        staffData.setPhoneNumber(staff.getPhoneNumber());
-        staffData.setLocation(staff.getLocation());
-        staffData.setBloodGroup(Staff.BloodGroup.valueOf(staff.getBloodGroup()));
-        staffData.setDepartment(staff.getDepartment());
-        staffData.setClassTeacher(staff.getClassTeacher());
-        staffData.setBlockHead(staff.getBlockHead());
+    // public Staff updateStaff(StaffDTO staff){
+    //     Staff staffData = staffRepo.getById(staff.getId());
+    //     staffData.setImage(staff.getTeacherPhoto());
+    //     staffData.setStaffId(staff.getStaffId());
+    //     staffData.setFullname(staff.getFullname());
+    //     staffData.setGender(Staff.Gender.valueOf(staff.getGender()));
+    //     staffData.setDateOfBirth(staff.getDateOfBirth());
+    //     staffData.setEmail(staff.getEmail());
+    //     staffData.setPhoneNumber(staff.getPhoneNumber());
+    //     staffData.setLocation(staff.getLocation());
+    //     staffData.setBloodGroup(Staff.BloodGroup.valueOf(staff.getBloodGroup()));
+    //     staffData.setDepartment(staff.getDepartment());
+    //     staffData.setClassTeacher(staff.getClassTeacher());
+    //     staffData.setBlockHead(staff.getBlockHead());
 
-        Staff s = staffRepo.save(staffData);
+    //     Staff s = staffRepo.save(staffData);
 
-        Login login = new Login();
-        login.setUserId(String.valueOf(s.getId()));
-        login.setUsername(staff.getUsername());
-        login.setPassword(passwordEncoder.encode(staff.getPassword()));
-        login.setRole("Teacher");
-        login.setStaff(s);
+    //     Login login = new Login();
+    //     login.setUserId(String.valueOf(s.getId()));
+    //     login.setUsername(staff.getUsername());
+    //     login.setPassword(passwordEncoder.encode(staff.getPassword()));
+    //     login.setRole("Teacher");
+    //     login.setStaff(s);
 
-        loginRepo.save(login);
+    //     loginRepo.save(login);
 
-        return s;
+    //     return s;
+    // }
+
+    public Staff updateStaff(long id, Staff staff) {
+        Staff staffData = staffRepo.findById(id).orElseThrow(() -> new RuntimeException("Staff not found: " + id));
+    
+        // Update only if new data is provided
+        
+        if (staff.getStaffId() != null) staffData.setStaffId(staff.getStaffId());
+        if (staff.getFullname() != null) staffData.setFullname(staff.getFullname());
+        if (staff.getGender() != null) staffData.setGender(staff.getGender());
+        if (staff.getDateOfBirth() != null) staffData.setDateOfBirth(staff.getDateOfBirth());
+        if (staff.getEmail() != null) staffData.setEmail(staff.getEmail());
+        if (staff.getPhoneNumber() != null) staffData.setPhoneNumber(staff.getPhoneNumber());
+        if (staff.getLocation() != null) staffData.setLocation(staff.getLocation());
+        if (staff.getBloodGroup() != null) staffData.setBloodGroup(staff.getBloodGroup());
+        if (staff.getDepartment() != null) staffData.setDepartment(staff.getDepartment());
+        if (staff.getClassTeacher() != null) staffData.setClassTeacher(staff.getClassTeacher());
+        if (staff.getBlockHead() != null) staffData.setBlockHead(staff.getBlockHead());
+        if (staff.getImage() != null) staffData.setImage(staff.getImage());
+    
+        Staff updatedStaff = staffRepo.save(staffData);
+    
+        // Login login = loginRepo.findById(updatedStaff.getId()).orElse(new Login());
+        // login.setUserId(String.valueOf(updatedStaff.getId()));
+        // login.setUsername(staff.getgetUsername());
+        // login.setPassword(passwordEncoder.encode(staff.getPassword()));
+        // login.setRole("TEACHER");
+        // login.setStaff(updatedStaff);
+    
+        // loginRepo.save(login);
+    
+        return updatedStaff;
     }
-
+    
+    
+    
     public boolean deleteStaff(long userId){
         Staff staffDetail = staffRepo.getById(userId);
        if (staffDetail!=null) {
@@ -101,3 +135,4 @@ public class StaffService {
     }
 
 }
+

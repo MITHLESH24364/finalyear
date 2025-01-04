@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.finalyear.entity.Attendance;
@@ -64,4 +65,26 @@ public class AttendenceController {
         List<Attendance> attendances = attendenceService.getAllAttendance();
         return ResponseEntity.ok(attendances);
     }
+
+
+    @PostMapping("/bulk-add")
+public ResponseEntity<List<Attendance>> addBulkAttendance(@RequestBody List<Attendance> attendances) {
+    List<Attendance> addedAttendances = attendenceService.addBulkAttendance(attendances);
+    return ResponseEntity.ok(addedAttendances);
 }
+
+
+@GetMapping("/getByDate")
+public ResponseEntity<List<Attendance>> getAttendanceByDate(
+        @RequestParam("date") String date,
+        @RequestParam("class") String studentClass,
+        @RequestParam("section") String section) {
+    List<Attendance> attendanceRecords = attendenceService.getAttendanceByDate(date, studentClass, section);
+    return ResponseEntity.ok(attendanceRecords);
+}
+
+
+}
+
+
+

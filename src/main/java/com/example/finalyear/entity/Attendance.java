@@ -1,5 +1,7 @@
 package com.example.finalyear.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +27,7 @@ public class Attendance {
     private String sid;
 
     @Column(name = "date", nullable = false)
-    private java.sql.Date date;
+    private Date date;
 
     @Column(name = "present")
     private String present;

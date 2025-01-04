@@ -43,12 +43,38 @@ public class UserController {
         return ResponseEntity.ok(addedStaff);
     }
 
-    // Update an existing staff
-    @PutMapping("/staff/update")
-    public ResponseEntity<Staff> updateStaff(@RequestBody StaffDTO staff) {
-        Staff updatedStaff = staffService.updateStaff(staff);
+    // // Update an existing staff
+    // @PutMapping("/staff/update")
+    // public ResponseEntity<Staff> updateStaff(@RequestBody StaffDTO staff) {
+    //     Staff updatedStaff = staffService.updateStaff(staff);
+    //     return ResponseEntity.ok(updatedStaff);
+    // }
+
+
+
+    // @PutMapping("/staff/update/{id}")
+    // public ResponseEntity<Staff> updateStaff(@RequestBody Staff staff, @PathVariable("id") long id) {
+    //     try {
+    //         Staff updateStaff = StaffService.updateStaff(id, staff);
+    //         return ResponseEntity.ok(updateStaff);
+    //     } catch (RuntimeException e) {
+    //         return ResponseEntity.status(404).body(null);
+    //     }
+    // }
+    
+
+    @PutMapping("/staff/update/{id}")
+public ResponseEntity<Staff> updateStaff(@RequestBody Staff staff, @PathVariable("id") long id) {
+    try {
+        Staff updatedStaff = staffService.updateStaff(id, staff);
         return ResponseEntity.ok(updatedStaff);
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(404).body(null);
     }
+}
+
+
+    
 
     // Delete a staff by ID
     @DeleteMapping("/staff/delete/{id}")
@@ -98,29 +124,42 @@ public class UserController {
     //     }
     // }
 
-@PutMapping("/student/update/{id}")
-public ResponseEntity<?> updateStudent(
-        @PathVariable Long id,
-        @RequestParam("studentPhoto") MultipartFile studentPhoto,
-        @ModelAttribute StudentsDetail studentsDetail) {
-    try {
-        // Handle image processing
-        if (!studentPhoto.isEmpty()) {
-            String fileName = studentPhoto.getOriginalFilename();
-            String filePath = "uploads/" + fileName; // Adjust path as needed
-            Files.copy(studentPhoto.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
-            studentsDetail.setImage(filePath);
+    @PutMapping("/student/update/{id}")
+    public ResponseEntity<StudentsDetail> updateStudent(@RequestBody StudentsDetail student, @PathVariable("id") long id) {
+        try {
+            StudentsDetail updatedStudent = studentService.updateStudentsDetail(id, student);
+            return ResponseEntity.ok(updatedStudent);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(null);
         }
+    }
+    
+
+
+
+
+// @PutMapping("/student/update/{id}")
+// public ResponseEntity<?> updateStudent(
+//         @PathVariable Long id,
+//         @ModelAttribute StudentsDetail studentsDetail) {
+//     try {
+//         // Handle image processing
+//         if (!studentPhoto.isEmpty()) {
+//             String fileName = studentPhoto.getOriginalFilename();
+//             String filePath = "uploads/" + fileName; // Adjust path as needed
+//             Files.copy(studentPhoto.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+//             studentsDetail.setImage(filePath);
+//         }
 
         // Update logic
-        studentsDetail.setAccountId(id);
-        StudentsDetail updatedStudent = studentService.updateStudentsDetail(studentsDetail);
-        return ResponseEntity.ok(updatedStudent);
+//         studentsDetail.setAccountId(id);
+//         StudentsDetail updatedStudent = studentService.updateStudentsDetail(studentsDetail);
+//         return ResponseEntity.ok(updatedStudent);
 
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating student.");
-    }
-}
+//     } catch (Exception e) {
+//         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating student.");
+//     }
+// }
 
 
 

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.yaml.snakeyaml.error.Mark;
 
+import com.example.finalyear.entity.Attendance;
 import com.example.finalyear.entity.Marks;
 import com.example.finalyear.service.MarkService;
 
@@ -23,18 +25,28 @@ public class MarksController {
     private MarkService marksService;
 
     // Add new marks
-    @PostMapping("/add")
-    public ResponseEntity<Marks> addMarks(@RequestBody Marks marks) {
-        Marks addedMarks = marksService.addMarks(marks);
-        return ResponseEntity.ok(addedMarks);
-    }
+    // @PostMapping("/add")
+    // public ResponseEntity<Marks> addMarks(@RequestBody Marks marks) {
+    //     Marks addedMarks = marksService.addMarks(marks);
+    //     return ResponseEntity.ok(addedMarks);
+    // }
 
     // Update marks
-    @PutMapping("/update")
-    public ResponseEntity<Marks> updateMarks(@RequestBody Marks marks) {
-        Marks updatedMarks = marksService.updateMarks(marks);
-        return ResponseEntity.ok(updatedMarks);
-    }
+    // @PutMapping("/update")
+    // public ResponseEntity<Marks> updateMarks(@RequestBody Marks marks) {
+    //     Marks updatedMarks = marksService.updateMarks(marks);
+    //     return ResponseEntity.ok(updatedMarks);
+    // }
+
+
+    // Add or Update Marks
+        @PostMapping("/add-or-update")
+        public ResponseEntity<Marks> addOrUpdateMarks(@RequestBody Marks marks) {
+            Marks result = marksService.addOrUpdateMarks(marks);
+            return ResponseEntity.ok(result);
+}
+
+
 
     // Delete marks by ID
     @DeleteMapping("/delete/{id}")
@@ -64,4 +76,10 @@ public class MarksController {
         List<Marks> marksList = marksService.getAllMarks();
         return ResponseEntity.ok(marksList);
     }
+
+    @PostMapping("/bulk-add")
+    public ResponseEntity<List<Marks>> addBulkMarks(@RequestBody List<Marks> marks) {
+    List<Marks> addedMarks = marksService.addBulkMarks(marks);
+    return ResponseEntity.ok(addedMarks);
+}
 }
