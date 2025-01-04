@@ -43,4 +43,6 @@ public class StudentMarksController {
         studentMarksService.deleteMarks(id);
         return ResponseEntity.noContent().build();
     }
+
+    
 }
