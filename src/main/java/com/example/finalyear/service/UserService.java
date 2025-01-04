@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService{
         if (profile == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        String role = profile.getStaff()==null?"STAFF":"STUDENT";
+        String role = profile.getStaff()==null?"TEACHER":"STUDENT";
         
         return User.builder()
                 .username(profile.getUsername()) 
