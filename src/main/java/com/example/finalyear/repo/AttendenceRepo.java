@@ -12,14 +12,7 @@ import com.example.finalyear.entity.Attendance;
 
 @Repository
 public interface AttendenceRepo extends JpaRepository<Attendance, Long> {
-    
-    // @Query("SELECT a FROM Attendance a WHERE a.date = :date AND a.sid IN " +
-    //        "(SELECT s.accountId FROM Student s WHERE s.studentClass = :studentClass AND s.section = :section)")
-    // List<Attendance> findByDateAndClassAndSection(
-    //     @Param("date") Date date,
-    //     @Param("studentClass") String studentClass,
-    //     @Param("section") String section
-    // );
+
 
     List<Attendance> findByDate(Date date);
     
