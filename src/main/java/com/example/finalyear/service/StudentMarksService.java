@@ -59,6 +59,45 @@ public class StudentMarksService {
     //     return studentMarksRepository.save(studentMarks2);
     // }
 
+// public List<StudentMarks> saveOrUpdateMarks(List<StudentMarkDto> studentMarkDtos) {
+//     // Validate input
+//     if (studentMarkDtos == null || studentMarkDtos.isEmpty()) {
+//         throw new IllegalArgumentException("Student mark data list cannot be null or empty.");
+//     }
+
+//     List<StudentMarks> savedStudentMarks = new ArrayList<>();
+
+//     for (StudentMarkDto studentMarkDto : studentMarkDtos) {
+//         // Validate each DTO
+//         if (studentMarkDto.getTerm() == null || studentMarkDto.getYear() == null ||
+//                 studentMarkDto.getSubject() == null || studentMarkDto.getMarks() == null ||
+//                 studentMarkDto.getStudent() == null) {
+//             throw new IllegalArgumentException("All fields in StudentMarkDto are required.");
+//         }
+
+//         // Fetch student details
+//         StudentsDetail student = studentRepo.findById(studentMarkDto.getStudent())
+//                 .orElseThrow(
+//                         () -> new EntityNotFoundException("Student not found with ID: " + studentMarkDto.getStudent()));
+
+//         // Map DTO to entity
+//         StudentMarks studentMarks = new StudentMarks();
+//         studentMarks.setStudent(student);
+//         studentMarks.setTerm(studentMarkDto.getTerm());
+//         studentMarks.setYear(studentMarkDto.getYear());
+//         studentMarks.setSubject(studentMarkDto.getSubject());
+//         studentMarks.setMarks(studentMarkDto.getMarks());
+
+//         // Save and collect saved entity
+//         savedStudentMarks.add(studentMarksRepository.save(studentMarks));
+//     }
+
+//     return savedStudentMarks;
+// }
+
+
+
+
 public List<StudentMarks> saveOrUpdateMarks(List<StudentMarkDto> studentMarkDtos) {
     // Validate input
     if (studentMarkDtos == null || studentMarkDtos.isEmpty()) {
@@ -80,13 +119,24 @@ public List<StudentMarks> saveOrUpdateMarks(List<StudentMarkDto> studentMarkDtos
                 .orElseThrow(
                         () -> new EntityNotFoundException("Student not found with ID: " + studentMarkDto.getStudent()));
 
-        // Map DTO to entity
-        StudentMarks studentMarks = new StudentMarks();
-        studentMarks.setStudent(student);
-        studentMarks.setTerm(studentMarkDto.getTerm());
-        studentMarks.setYear(studentMarkDto.getYear());
-        studentMarks.setSubject(studentMarkDto.getSubject());
-        studentMarks.setMarks(studentMarkDto.getMarks());
+        // Check if a record with matching fields exists
+        Optional<StudentMarks> existingMarks = studentMarksRepository.findByStudentAndTermAndYearAndSubject(
+                student, studentMarkDto.getTerm(), studentMarkDto.getYear(), studentMarkDto.getSubject());
+
+        StudentMarks studentMarks;
+        if (existingMarks.isPresent()) {
+            // Update existing record
+            studentMarks = existingMarks.get();
+            studentMarks.setMarks(studentMarkDto.getMarks());
+        } else {
+            // Create new record
+            studentMarks = new StudentMarks();
+            studentMarks.setStudent(student);
+            studentMarks.setTerm(studentMarkDto.getTerm());
+            studentMarks.setYear(studentMarkDto.getYear());
+            studentMarks.setSubject(studentMarkDto.getSubject());
+            studentMarks.setMarks(studentMarkDto.getMarks());
+        }
 
         // Save and collect saved entity
         savedStudentMarks.add(studentMarksRepository.save(studentMarks));
@@ -94,7 +144,6 @@ public List<StudentMarks> saveOrUpdateMarks(List<StudentMarkDto> studentMarkDtos
 
     return savedStudentMarks;
 }
-
 
 
 

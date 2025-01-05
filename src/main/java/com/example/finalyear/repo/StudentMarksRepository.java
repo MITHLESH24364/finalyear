@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.finalyear.entity.StudentMarks;
 import com.example.finalyear.entity.StudentsDetail;
-
+ 
 @Repository
 public interface StudentMarksRepository extends JpaRepository<StudentMarks, Long> {
     // Custom query methods if needed
