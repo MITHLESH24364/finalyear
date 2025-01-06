@@ -1,6 +1,12 @@
 package com.example.finalyear.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 
 public class AttendanceDto {
     private Long id;

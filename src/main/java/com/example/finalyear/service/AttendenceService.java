@@ -43,9 +43,28 @@ public class AttendenceService {
         return attendanceRepo.findAll();
     }
 
+    // public List<Attendance> addBulkAttendance(List<Attendance> attendances) {
+    //     return attendanceRepo.saveAll(attendances);
+    // }
     public List<Attendance> addBulkAttendance(List<Attendance> attendances) {
-        return attendanceRepo.saveAll(attendances);
+        for (Attendance attendance : attendances) {
+            // Check if an attendance record exists with the same date and sid
+            List<Attendance> existingAttendances = attendanceRepo.findByDateAndSid(attendance.getDate(), attendance.getSid());
+            if (!existingAttendances.isEmpty()) {
+                // If found, update the existing record
+                Attendance existingAttendance = existingAttendances.get(0);
+                existingAttendance.setPresent(attendance.getPresent());
+                existingAttendance.setLate(attendance.getLate());
+                existingAttendance.setAbsent(attendance.getAbsent());
+                attendanceRepo.save(existingAttendance);
+            } else {
+                // If not found, add a new record
+                attendanceRepo.save(attendance);
+            }
+        }
+        return attendanceRepo.findAll(); // Return updated list of attendances
     }
+    
 
     public List<Attendance> getAttendanceByDate(String date, String studentClass, String section) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
