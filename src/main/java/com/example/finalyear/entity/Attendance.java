@@ -38,4 +38,5 @@ public class Attendance {
     @Column(name = "absent")
     private String absent;
 
+    
 }
