@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +28,7 @@ public class Attendance {
     @Column(name = "SID", nullable = false)
     private String sid;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "date", nullable = false)
     private Date date;
 
@@ -38,5 +41,5 @@ public class Attendance {
     @Column(name = "absent")
     private String absent;
 
-    
+
 }

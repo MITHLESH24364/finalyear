@@ -16,7 +16,9 @@ import org.yaml.snakeyaml.error.Mark;
 
 import com.example.finalyear.entity.Attendance;
 import com.example.finalyear.entity.Marks;
+import com.example.finalyear.entity.StudentMarks;
 import com.example.finalyear.service.MarkService;
+import com.example.finalyear.service.StudentMarksService;
 
 @RestController
 @RequestMapping("/sms/marks/")
@@ -24,19 +26,6 @@ public class MarksController {
     @Autowired
     private MarkService marksService;
 
-    // Add new marks
-    // @PostMapping("/add")
-    // public ResponseEntity<Marks> addMarks(@RequestBody Marks marks) {
-    //     Marks addedMarks = marksService.addMarks(marks);
-    //     return ResponseEntity.ok(addedMarks);
-    // }
-
-    // Update marks
-    // @PutMapping("/update")
-    // public ResponseEntity<Marks> updateMarks(@RequestBody Marks marks) {
-    //     Marks updatedMarks = marksService.updateMarks(marks);
-    //     return ResponseEntity.ok(updatedMarks);
-    // }
 
 
     // Add or Update Marks
@@ -82,4 +71,16 @@ public class MarksController {
     List<Marks> addedMarks = marksService.addBulkMarks(marks);
     return ResponseEntity.ok(addedMarks);
 }
+
+@GetMapping("/get/{classLevel}/{section}/{term}/{year}/{subject}")
+public ResponseEntity<List<StudentMarks>> getMarksByFilters(
+    @PathVariable("classLevel") String classLevel,
+    @PathVariable("section") String section,
+    @PathVariable("term") String term,
+    @PathVariable("year") String year,
+    @PathVariable("subject") String subject) {
+    List<StudentMarks> marksList = StudentMarksService.getMarksByFilters(classLevel, section, term, year, subject);
+    return ResponseEntity.ok(marksList);
+}
+
 }

@@ -13,3 +13,5 @@ public interface MarksRepo extends JpaRepository<Marks,Long> {
     Marks findByStudentIdAndYearAndTerm(@Param("studentId") int studentId, @Param("year") int year, @Param("term") String term);
 
 }
+
+
