@@ -36,9 +36,9 @@ public class StudentMarksService {
         return studentMarksRepository.findById(id);
     }
 
-    public static List<StudentMarks> getMarksByFilters(String classLevel, String section, String term, String year, String subject) {
-    return StudentMarksRepository.findByFilters(classLevel, section, term, year, subject);
-}
+    public List<StudentMarks> getMarksByFilters(String term, String year, String subject) {
+        return studentMarksRepository.findByFilters(term, year, subject);
+    }
 
 
 public List<StudentMarks> saveOrUpdateMarks(List<StudentMarkDto> studentMarkDtos) {

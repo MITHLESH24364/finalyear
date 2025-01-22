@@ -1,6 +1,7 @@
 package com.example.finalyear.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,21 @@ public class StudentMarksController {
     public ResponseEntity<Void> deleteMarks(@PathVariable Long id) {
         studentMarksService.deleteMarks(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+     @GetMapping("/get/{term}/{year}/{subject}")
+    public ResponseEntity<?> getMarksByFilters(
+            @PathVariable String term,
+            @PathVariable String year,
+            @PathVariable String subject) {
+        try {
+            List<StudentMarks> marksList = studentMarksService.getMarksByFilters(term, year, subject);
+            return ResponseEntity.ok(marksList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error fetching marks: " + e.getMessage());
+        }
     }
 
     
