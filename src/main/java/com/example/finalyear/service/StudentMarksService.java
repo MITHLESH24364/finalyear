@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.finalyear.dto.StudentMarkDto;
-import com.example.finalyear.entity.Marks;
 import com.example.finalyear.entity.StudentMarks;
 import com.example.finalyear.entity.StudentsDetail;
 import com.example.finalyear.repo.StudentMarksRepository;
