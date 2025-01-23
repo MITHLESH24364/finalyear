@@ -1,5 +1,6 @@
 package com.example.finalyear.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.finalyear.dto.AttendanceDetailDto;
 import com.example.finalyear.entity.Attendance;
 import com.example.finalyear.service.AttendenceService;
 
@@ -82,6 +84,30 @@ public ResponseEntity<List<Attendance>> getAttendanceByDate(
     List<Attendance> attendanceRecords = attendenceService.getAttendanceByDate(date, studentClass, section);
     return ResponseEntity.ok(attendanceRecords);
 }
+
+
+@GetMapping("/absent/getByDate")
+public ResponseEntity<List<AttendanceDetailDto>> getAbsentStudentDetails(
+        @RequestParam("date") String date,
+        @RequestParam("class") String studentClass,
+        @RequestParam("section") String section) {
+    List<AttendanceDetailDto> absentStudents = 
+        attendenceService.getAbsentStudentDetails(date, studentClass, section);
+    return ResponseEntity.ok(absentStudents);
+}
+
+
+@GetMapping("/sid/{sid}")
+    public List<Attendance> getAttendanceBySid(@PathVariable String sid) {
+        return attendenceService.getAttendanceBySid(sid);
+    }
+
+    @GetMapping("/date")
+    public List<Attendance> getAttendanceByDate(@RequestParam Date date) {
+        String dateString = date.toString();
+        return attendenceService.getAttendanceByDate(dateString);
+    }
+    
 
 
 }
